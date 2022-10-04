@@ -8,9 +8,9 @@ import java.util.List;
 
 public class Main {
 
-    public static ArrayList<Link> MarkovChain = new ArrayList<>();
+    public ArrayList<Link> MarkovChain = new ArrayList<>();
 
-    public static void readFile(){
+    public void readFile(){
 
        /* try {
             List<String> a = Files.readAllLines(Paths.get(""));
@@ -24,8 +24,8 @@ public class Main {
                 //System.out.println(line);
                 String [] s = line.split(" ");
                 Link link = new Link();
-
                 ArrayList<Noda> noda_arr = new ArrayList<>();
+
                 link.setWord(s[0]);
                 //записываем все ноды
                 for(int i = 1; i < s.length; i += 2){
@@ -49,7 +49,7 @@ public class Main {
 
     }
 
-    public static void printLink(Link link){
+    public void printLink(Link link){
 
         System.out.println("-------------------Link-------------------");
         System.out.print(link.getWord() + " : ");
@@ -63,10 +63,12 @@ public class Main {
 
     }
 
-    public static void printMarkovChain(ArrayList<Link> MarkovChain){
+    public void printMarkovChain(ArrayList<Link> MarkovChain){
 
         System.out.println("----------------MarkovChain----------------");
+        System.out.println(MarkovChain.size());
         for(int i = 0; i < MarkovChain.size(); i++){
+            System.out.println(MarkovChain.get(i).getNoda().size());
             System.out.print(MarkovChain.get(i).getWord() + " : ");
             for(int j = 0; j < MarkovChain.get(i).getNoda().size(); j++){
                 System.out.print(MarkovChain.get(i).getNoda().get(j).getWord() + ", ");
@@ -79,7 +81,7 @@ public class Main {
 
     }
 
-    public static void main(String[] args) {
+    public void start() {
 
         readFile();
 
