@@ -10,18 +10,40 @@ public class Main {
 
     public ArrayList<Link> MarkovChain = new ArrayList<>();
 
-    public void readFile(){
+    //записывает свой опыт
+    public void writeData(){
 
-       /* try {
-            List<String> a = Files.readAllLines(Paths.get(""));
-        } catch (IOException e){}*/
+        try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter("data.txt"))){
+
+            for(int i = 0; i < MarkovChain.size(); i++){
+                fileWriter.write(MarkovChain.get(i).getWord() + " ");
+                for(int j = 0; j < MarkovChain.get(i).getNoda().size(); j++){
+                    fileWriter.write(MarkovChain.get(i).getNoda().get(j).getWord() + " ");
+                    fileWriter.write(MarkovChain.get(i).getNoda().get(j).getIterator() + " ");
+                }
+                fileWriter.newLine();
+            }
+
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //считывает сырые данные
+    public void readRawData(){
+
+    }
+
+    //считывает свой прошлый опыт
+    public void readData(){
 
         try (BufferedReader fileReader = new BufferedReader(new FileReader("data.txt"))){
 
             String line;
 
             while ((line = fileReader.readLine()) != null){
-                //System.out.println(line);
                 String [] s = line.split(" ");
                 ArrayList<Noda> noda_arr = new ArrayList<>();
 
@@ -29,9 +51,8 @@ public class Main {
                 for(int i = 1; i < s.length; i += 2){
                     noda_arr.add(new Noda(s[i], Integer.parseInt(s[i + 1])));
                 }
+
                 MarkovChain.add(new Link(s[0], noda_arr));
-                //printLink(link);
-                printMarkovChain(MarkovChain);
             }
 
             //test
@@ -77,7 +98,8 @@ public class Main {
 
     public void start() {
 
-        readFile();
+        readData();
+        writeData();
 
     }
 
