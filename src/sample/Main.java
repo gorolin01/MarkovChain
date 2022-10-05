@@ -64,6 +64,28 @@ public class Main {
 
     }
 
+    public void process(){
+
+        try (BufferedReader fileReader = new BufferedReader(new FileReader("RawData.txt"))){
+
+            String line;
+
+            while ((line = fileReader.readLine()) != null){
+
+                //нужно убрать лишние символы из строки!!!
+
+                String [] s = line.split(" ");
+
+                //нужно считывать текст для обучения по предложениям!!!
+
+            }
+
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+    }
+
     public void printLink(Link link){
 
         System.out.println("-------------------Link-------------------");
