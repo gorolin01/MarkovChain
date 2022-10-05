@@ -2,22 +2,19 @@ package sample;
 
 public class Noda {
 
-    private static String word;
-    private static int iterator;
+    private String word;
+    private int iterator;
 
-    public static void setIterator(int iterator) {
-        Noda.iterator = iterator;
+    public Noda(String word, int iterator){
+        this.word = word;
+        this.iterator = iterator;
     }
 
-    public static void setWord(String word) {
-        Noda.word = word;
-    }
-
-    public static int getIterator() {
+    public int getIterator() {
         return iterator;
     }
 
-    public static String getWord() {
+    public String getWord() {
         return word;
     }
 

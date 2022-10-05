@@ -5,22 +5,19 @@ import java.util.ArrayList;
 // звено цепи
 public class Link {
 
-    private static String word;
-    private static ArrayList<Noda> noda = new ArrayList<>();
+    private String word;
+    private ArrayList<Noda> noda = new ArrayList<>();
 
-    public static void setWord(String word) {
-        Link.word = word;
+    public Link(String word, ArrayList<Noda> noda){
+        this.word = word;
+        this.noda = noda;
     }
 
-    public static void setNoda(ArrayList<Noda> noda) {
-        Link.noda = noda;
-    }
-
-    public static String getWord() {
+    public String getWord() {
         return word;
     }
 
-    public static ArrayList<Noda> getNoda() {
+    public ArrayList<Noda> getNoda() {
         return noda;
     }
 

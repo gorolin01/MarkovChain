@@ -23,20 +23,14 @@ public class Main {
             while ((line = fileReader.readLine()) != null){
                 //System.out.println(line);
                 String [] s = line.split(" ");
-                Link link = new Link();
                 ArrayList<Noda> noda_arr = new ArrayList<>();
 
-                link.setWord(s[0]);
                 //записываем все ноды
                 for(int i = 1; i < s.length; i += 2){
-                    Noda noda = new Noda();
-                    noda.setWord(s[i]);
-                    noda.setIterator(Integer.parseInt(s[i + 1]));
-                    noda_arr.add(noda);
+                    noda_arr.add(new Noda(s[i], Integer.parseInt(s[i + 1])));
                 }
-                link.setNoda(noda_arr);
-                MarkovChain.add(link);
-                printLink(link);
+                MarkovChain.add(new Link(s[0], noda_arr));
+                //printLink(link);
                 printMarkovChain(MarkovChain);
             }
 
@@ -66,9 +60,9 @@ public class Main {
     public void printMarkovChain(ArrayList<Link> MarkovChain){
 
         System.out.println("----------------MarkovChain----------------");
-        System.out.println(MarkovChain.size());
+        //System.out.println(MarkovChain.size());
         for(int i = 0; i < MarkovChain.size(); i++){
-            System.out.println(MarkovChain.get(i).getNoda().size());
+            //System.out.println(MarkovChain.get(i).getNoda().size());
             System.out.print(MarkovChain.get(i).getWord() + " : ");
             for(int j = 0; j < MarkovChain.get(i).getNoda().size(); j++){
                 System.out.print(MarkovChain.get(i).getNoda().get(j).getWord() + ", ");
