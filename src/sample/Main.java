@@ -13,7 +13,7 @@ public class Main {
     //записывает свой опыт
     public void writeData(){
 
-        try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter("data.txt"))){
+        try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter("chain.txt"))){
 
             for(int i = 0; i < MarkovChain.size(); i++){
                 fileWriter.write(MarkovChain.get(i).getWord() + " ");
@@ -39,7 +39,7 @@ public class Main {
     //считывает свой прошлый опыт
     public void readData(){
 
-        try (BufferedReader fileReader = new BufferedReader(new FileReader("data.txt"))){
+        try (BufferedReader fileReader = new BufferedReader(new FileReader("chain.txt"))){
 
             String line;
 
@@ -66,7 +66,7 @@ public class Main {
 
     public void process(){
 
-        try (BufferedReader fileReader = new BufferedReader(new FileReader("RawData.txt"))){
+        try (BufferedReader fileReader = new BufferedReader(new FileReader("data.txt"))){
 
             String line;
 
@@ -77,11 +77,62 @@ public class Main {
                 String [] s = line.split(" ");
 
                 //нужно считывать текст для обучения по предложениям!!!
+                //сырой текст нужно разбить на предложения
 
             }
 
         } catch (IOException e) {
             System.out.println(e);
+        }
+
+    }
+
+    //разбивает сырой текст на строки из предложений
+    public void splitIntoSentences(){
+
+        ArrayList<String> res = new ArrayList<>();
+
+        //чтение
+        try (BufferedReader fileReader = new BufferedReader(new FileReader("RawData.txt"))){
+
+            String line;
+            String incompleteSentence = "";
+
+            while ((line = fileReader.readLine()) != null){
+
+                int i = 0;
+
+                for(i = 0; line.indexOf('.', i) != -1; i = line.indexOf('.', i) + 1){
+                    res.add(incompleteSentence + line.substring(i, line.indexOf('.', i)));
+                    incompleteSentence = "";
+                }
+                if(i < line.length()){
+                    incompleteSentence += line.substring(i);
+                }else{
+                    if(incompleteSentence.length() > 0){
+                        res.add(incompleteSentence);
+                    }
+                    incompleteSentence = "";
+                }
+                i = 0;
+
+            }
+
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        //запись
+        try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter("data.txt"))){
+
+            for(int i = 0; i < res.size(); i++){
+                fileWriter.write(res.get(i));
+                fileWriter.newLine();
+            }
+
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
@@ -120,8 +171,9 @@ public class Main {
 
     public void start() {
 
-        readData();
-        writeData();
+        //readData();
+        //writeData();
+        splitIntoSentences();
 
     }
 
