@@ -102,15 +102,41 @@ public class Main {
 
                 int i = 0;
 
+                if(line.length() == 0){
+                    continue;
+                }
+
                 for(i = 0; line.indexOf('.', i) != -1; i = line.indexOf('.', i) + 1){
-                    res.add(incompleteSentence + line.substring(i, line.indexOf('.', i)));
+                    if(Character.toString(line.charAt(i)).equals(" ")){
+                        if(incompleteSentence.length() > 0){
+                            if(Character.toString(incompleteSentence.charAt(0)).equals(" ")){
+                                incompleteSentence = incompleteSentence.substring(1);
+                            }
+                        }
+                        res.add(incompleteSentence + line.substring(i + 1, line.indexOf('.', i)));
+                    }else{
+                        if(incompleteSentence.length() > 0){
+                            if(Character.toString(incompleteSentence.charAt(0)).equals(" ")){
+                                incompleteSentence = incompleteSentence.substring(1);
+                            }
+                        }
+                        res.add(incompleteSentence + line.substring(i, line.indexOf('.', i)));
+                    }
+                    //res.add(incompleteSentence + line.substring(i, line.indexOf('.', i)));
                     incompleteSentence = "";
                 }
+
                 if(i < line.length()){
-                    incompleteSentence += line.substring(i);
+                    incompleteSentence += line.substring(i) + " ";
                 }else{
                     if(incompleteSentence.length() > 0){
-                        res.add(incompleteSentence);
+                        if(Character.toString(incompleteSentence.charAt(0)).equals(" ")){
+                            incompleteSentence = incompleteSentence.substring(1);
+                            res.add(incompleteSentence);
+                        }else{
+                            res.add(incompleteSentence);
+                        }
+                        //res.add(incompleteSentence);
                     }
                     incompleteSentence = "";
                 }
@@ -123,7 +149,38 @@ public class Main {
         }
 
         //запись
-        try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter("data.txt"))){
+        Write(res,"data.txt");
+
+    }
+
+    //убирает символы(применять СТРОГО после разделения на предложения и удаления лишних точек!)
+    public void replaceSymbol(){
+
+        ArrayList<String> res = new ArrayList<>();
+
+        try (BufferedReader fileReader = new BufferedReader(new FileReader("data.txt"))){
+
+            String line;
+            String SymbolDel = "!@#$%^&_-–=,/`«»"; //()*+?
+
+            while ((line = fileReader.readLine()) != null){
+                for(int i = 0; i < SymbolDel.length(); i++){
+                    line = line.replaceAll(Character.toString(SymbolDel.charAt(i)), "");
+                }
+                res.add(line);
+            }
+
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        Write(res,"data.txt");
+
+    }
+
+    //запись в файл ArrayList<String>
+    public void Write(ArrayList<String> res, String src){
+        try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(src))){
 
             for(int i = 0; i < res.size(); i++){
                 fileWriter.write(res.get(i));
@@ -134,7 +191,20 @@ public class Main {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    //В РАЗРАБОТКЕ
+    //удаление лишних точек(которые не обозначают конец предложения)
+    public String removingRedundantPointsInSentence(String line){
+
+        for(int i = 0; line.indexOf('.', i) != -1; i = line.indexOf('.', i) + 1){
+            if((line.substring(i, line.indexOf('.', i)).length() > 1) &&
+                    (Character.isUpperCase(line.charAt(i-1)))){
+
+            }
+        }
+
+        return line;
     }
 
     public void printLink(Link link){
@@ -174,6 +244,7 @@ public class Main {
         //readData();
         //writeData();
         splitIntoSentences();
+        replaceSymbol();
 
     }
 
